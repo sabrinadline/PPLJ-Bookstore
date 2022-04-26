@@ -1,3 +1,4 @@
+from cmath import e
 from itertools import count
 from tkinter import *
 from tkinter import ttk
@@ -22,8 +23,8 @@ class databuku_window:
         self.stok_buku=StringVar()
 
 
-        lbltitle = Label(self.root,text="Data Buku",fg="black",font=("Calibri",30,"bold"))
-        lbltitle.grid(row=0,column=0, sticky=W, columnspan=2, padx=10, pady=10)
+        #lbltitle = Label(self.root,text="Data Buku",fg="black",font=("Calibri",30,"bold"))
+        #lbltitle.grid(row=0,column=0, sticky=W, columnspan=2, padx=10, pady=10)
 
         #style
         style = ttk.Style()
@@ -32,29 +33,33 @@ class databuku_window:
         style.theme_use('default')
 
         #configure the treeview colors
-        style.configure("Treeview", background="#D3D3D3", foreground="black", rowheight=30, fieldbackground="white")
+        style.configure("Treeview", background="#D3D3D3", foreground="black", rowheight=25, fieldbackground="white")
 
         #change selected color
-        style.map('Treeview', background=[('selected', "#347083")])
+        style.map('Treeview', background=[('selected', "lemonchiffon4")])
 
         #frame tabel
         tabel_frame = Frame(self.root)
-        tabel_frame.place(x=10, y=150, width=1510, height=620)
+        tabel_frame.place(x=10, y=30, width=755, height=500)
 
         #scrollbar
-        tabel_scroll = ttk.Scrollbar(tabel_frame, orient=VERTICAL)
-        tabel_scroll.pack(side=RIGHT, fill=Y)
+        tabel_scroll_y = ttk.Scrollbar(tabel_frame, orient=VERTICAL)
+        tabel_scroll_x = ttk.Scrollbar(tabel_frame, orient=HORIZONTAL)
+        tabel_scroll_y.pack(side=RIGHT, fill=Y)
+        tabel_scroll_x.pack(side=BOTTOM, fill=X)
 
         #create tabel
-        self.my_tabel = ttk.Treeview(tabel_frame, column=("IDBuku","Nama Buku", "Pengarang Buku", "Penerbit Buku", "Kategori Buku", "Bahasa Buku", "Harga Buku", "Stok Buku"),
-                                                            yscrollcommand=tabel_scroll.set)
+        self.my_tabel = ttk.Treeview(tabel_frame, xscrollcommand=tabel_scroll_x.set, yscrollcommand=tabel_scroll_y.set)
         self.my_tabel.pack()
 
         #configure our columns
-        tabel_scroll=ttk.Scrollbar(command=self.my_tabel.yview)
+        #tabel_scroll_y=ttk.Scrollbar(command=self.my_tabel.yview)
+        #tabel_scroll_x=ttk.Scrollbar(command=self.my_tabel.xview)
+        tabel_scroll_y.config(command=self.my_tabel.yview)
+        tabel_scroll_x.config(command=self.my_tabel.xview)
 
         #define columns
-        #self.my_tabel['column'] = ("IDBuku","Nama Buku", "Pengarang Buku", "Penerbit Buku", "Kategori Buku", "Bahasa Buku", "Harga Buku", "Stok Buku")
+        self.my_tabel['column'] = ("IDBuku","Nama Buku", "Pengarang Buku", "Penerbit Buku", "Kategori Buku", "Bahasa Buku", "Harga Buku", "Stok Buku")
         
         #headings
         self.my_tabel.heading("#0", text="", anchor=W)
@@ -84,26 +89,26 @@ class databuku_window:
 
         #data dummy
         data = [
-            [1, "Bibi Gill", "Tere Liye", "PENERBIT SABAK GRIP", "Fiksi Ilmiah", "Indonesia", "89000", 50],
-            [2, "Spy X Family 03", "Endo Tatsuya", "Elex Media Komputindo", "Manga", "Indonesia", "36000", 50],
-            [3, "Laut Bercerita", "Leila S. Chudori", "Kepustakaan Populer Gramedia", "Fiksi Ilmiah", "Indonesia", "70000", 50],
-            [4, "Sebuah Seni untuk Bersikap Bodo Amat", "Nark Manson", "Gramedia Widiasarana Indonesia", "Pengembangan Diri", "Indonesia", "54600", 50],
-            [5, "Hai, Miko! 34 - Premium", "Ono Eriko", "m&c!", "Manga", "Indonesia", "42000", 50],
-            [6, "Home Sweet Loan", "Almira Bastari", "Gramedia Pustaka Utama", "Novel", "Indonesia", "66500", 50],
-            [7, "Jujutsu Kaisen 05", "Gege Akutami", "Elex Media Komputindo", "Manga", "Indonesia", "32000", 50],
-            [8, "Sagaras", "Tere Liye", "PENERBIT SABAK GRIP", "Fiksi Ilmiah", "Indonesia", "89000", 50],
-            [9, "Merawat Luka Batin", "Dr Jiemi Ardian", "Gramedia Pustaka Utama", "Pengembangan Diri", "Indonesia", "78400", 50],
-            [10, "Heartbreak Motel", "Ika Natassa", "Gramedia Pustaka Utama", "Romance", "Indonesia", "69300", 50],
-            [11, "Anak Bajang Mengayun Bulan", "Sindhunata", "Gramedia Pustaka Utama", "Novel", "Indonesia", "170800", 50],
-            [12, "Pachinko", "Min Jin Lee", "Gramedia Pustaka Utama", "Romance", "Indonesia", "95200", 50],
-            [13, "Cr: The Sweetest Hours", "Cathryn Parry", "Elex Media Komputindo", "Romance", "Indonesia", "72000", 50],
-            [14, "Membasmi Frustasi Fotografer", "Edwin Effendi", "Elex Media Komputindo", "Seni Desain", "Indonesia", "72000", 50],
-            [15, "Panduan Praktis Seminar Edisi Ketiga", "Indra Yuzal", "Pt Rajagrafindo Persada", "Pendidikan", "Indonesia", "69000", 50],
-            [16, "Cake Kekinian Favorit", "Meida Felici", "Gramedia Pustaka Utama", "Buku Masakan", "Indonesia", "78400", 50],
-            [17, "Yuk Belajar Nabung Saham", "Ryan Filbert Wijaya, S.Sn, ME.", "Elex Media Komputindo", "Finansial", "Indonesia", "63000", 50],
-            [18, "Siap-Siap Jadi Orangtua", "Najelaa Shihab", "Buah Hati", "Buku Parenting", "Indonesia", "120000", 50],
-            [19, "Violet", "Kyung Sook Shin", "Gramedia Pustaka Utama", "Sastra", "Indonesia", "61600", 50],
-            [20, "35 Fabel Anak", "Any Hidayati", "Anak Hebat Indonesia", "Buku Anak", "Indonesia", "55500", 50]
+            [1, "Bibi Gill", "Tere Liye", "PENERBIT SABAK GRIP", "Fiksi Ilmiah", "Indonesia", 89000, 50],
+            [2, "Spy X Family 03", "Endo Tatsuya", "Elex Media Komputindo", "Manga", "Indonesia", 36000, 50],
+            [3, "Laut Bercerita", "Leila S. Chudori", "Kepustakaan Populer Gramedia", "Fiksi Ilmiah", "Indonesia", 70000, 50],
+            [4, "Sebuah Seni untuk Bersikap Bodo Amat", "Nark Manson", "Gramedia Widiasarana Indonesia", "Pengembangan Diri", "Indonesia", 54600, 50],
+            [5, "Hai, Miko! 34 - Premium", "Ono Eriko", "m&c!", "Manga", "Indonesia", 42000, 50],
+            [6, "Home Sweet Loan", "Almira Bastari", "Gramedia Pustaka Utama", "Novel", "Indonesia", 66500, 50],
+            [7, "Jujutsu Kaisen 05", "Gege Akutami", "Elex Media Komputindo", "Manga", "Indonesia", 32000, 50],
+            [8, "Sagaras", "Tere Liye", "PENERBIT SABAK GRIP", "Fiksi Ilmiah", "Indonesia", 89000, 50],
+            [9, "Merawat Luka Batin", "Dr Jiemi Ardian", "Gramedia Pustaka Utama", "Pengembangan Diri", "Indonesia", 78400, 50],
+            [10, "Heartbreak Motel", "Ika Natassa", "Gramedia Pustaka Utama", "Romance", "Indonesia", 69300, 50],
+            [11, "Anak Bajang Mengayun Bulan", "Sindhunata", "Gramedia Pustaka Utama", "Novel", "Indonesia", 170800, 50],
+            [12, "Pachinko", "Min Jin Lee", "Gramedia Pustaka Utama", "Romance", "Indonesia", 95200, 50],
+            [13, "Cr: The Sweetest Hours", "Cathryn Parry", "Elex Media Komputindo", "Romance", "Indonesia", 72000, 50],
+            [14, "Membasmi Frustasi Fotografer", "Edwin Effendi", "Elex Media Komputindo", "Seni Desain", "Indonesia", 72000, 50],
+            [15, "Panduan Praktis Seminar Edisi Ketiga", "Indra Yuzal", "Pt Rajagrafindo Persada", "Pendidikan", "Indonesia", 69000, 50],
+            [16, "Cake Kekinian Favorit", "Meida Felici", "Gramedia Pustaka Utama", "Buku Masakan", "Indonesia", 78400, 50],
+            [17, "Yuk Belajar Nabung Saham", "Ryan Filbert Wijaya, S.Sn, ME.", "Elex Media Komputindo", "Finansial", "Indonesia", 63000, 50],
+            [18, "Siap-Siap Jadi Orangtua", "Najelaa Shihab", "Buah Hati", "Buku Parenting", "Indonesia", 120000, 50],
+            [19, "Violet", "Kyung Sook Shin", "Gramedia Pustaka Utama", "Sastra", "Indonesia", 61600, 50],
+            [20, "35 Fabel Anak", "Any Hidayati", "Anak Hebat Indonesia", "Buku Anak", "Indonesia", 55500, 50]
         ]
 
         #create striped row tags
@@ -124,22 +129,90 @@ class databuku_window:
             count += 1
         
         
+        #add entry boxes
+        #frame
+        viewdata_frame = LabelFrame(self.root, text="Details")
+        viewdata_frame.place(x=785, y=30, width=735, height=750)
+
+        #form input data
+        label_nama_buku=Label(viewdata_frame,text="Nama Buku :", fg="black")
+        label_nama_buku.place(x=10,y=30)
+        label_pengarang_buku=Label(viewdata_frame,text="Pengarang Buku :", fg="black")
+        label_pengarang_buku.place(x=10,y=60)
+        label_penerbit_buku=Label(viewdata_frame,text="Penerbit Buku :", fg="black")
+        label_penerbit_buku.place(x=10,y=90)
+        label_kategori_buku=Label(viewdata_frame,text="Kategori Buku :", fg="black")
+        label_kategori_buku.place(x=10,y=120)
+        label_bahasa_buku=Label(viewdata_frame,text="Bahasa Buku :", fg="black")
+        label_bahasa_buku.place(x=10,y=150)
+        label_harga_buku=Label(viewdata_frame,text="Harga Buku :", fg="black")
+        label_harga_buku.place(x=10,y=180)
+        label_stok_buku=Label(viewdata_frame,text="Stok Buku :", fg="black")
+        label_stok_buku.place(x=10,y=210)
+        label_deskripsi_buku=Label(viewdata_frame,text="Deskripsi Buku :", fg="black")
+        label_deskripsi_buku.place(x=10,y=240)
+
+        #entry boxes
+        self.txt_namabuku=ttk.Entry(viewdata_frame)
+        self.txt_namabuku.place(x=135,y=30,width=550)
+        self.txt_pengarangbuku=ttk.Entry(viewdata_frame)
+        self.txt_pengarangbuku.place(x=135,y=60,width=550)
+        self.txt_penerbitbuku=ttk.Entry(viewdata_frame)
+        self.txt_penerbitbuku.place(x=135,y=90,width=550)
+        self.txt_kategoribuku=ttk.Entry(viewdata_frame)
+        self.txt_kategoribuku.place(x=135,y=120,width=550)
+        self.txt_bahasabuku=ttk.Entry(viewdata_frame)
+        self.txt_bahasabuku.place(x=135,y=150,width=550)
+        self.txt_hargabuku=ttk.Entry(viewdata_frame)
+        self.txt_hargabuku.place(x=135,y=180,width=550)
+        self.txt_stokbuku=ttk.Entry(viewdata_frame)
+        self.txt_stokbuku.place(x=135,y=210,width=550)
+        self.txt_deskripsibuku = Text(viewdata_frame)
+        self.txt_deskripsibuku.place(x=135, y=240, width=550, height=185)
+
         #add buttons
         #button tambah buku
         add_new_book_btn=Button(self.root, text="tambah", font=("Calibri",12),bd=3,fg="black")
-        add_new_book_btn.place(x=1350,y=80,width=120,height=35)
+        add_new_book_btn.place(x=10,y=550,width=120,height=35)
 
         delete_book_btn=Button(self.root, text="hapus", font=("Calibri",12),bd=3,fg="black")
-        delete_book_btn.place(x=1230,y=80,width=120,height=35)
+        delete_book_btn.place(x=130,y=550,width=120,height=35)
 
-        viewall_book_btn=Button(self.root, text="lihat detail", font=("Calibri",12),bd=3,fg="black")
-        viewall_book_btn.place(x=1050,y=80,width=180,height=35)
+        viewall_book_btn=Button(self.root, text="lihat detail", command=self.lihat_detail, font=("Calibri",12),bd=3,fg="black")
+        viewall_book_btn.place(x=250,y=550,width=180,height=35)
 
         edit_book_btn=Button(self.root, text="edit", font=("Calibri",12),bd=3,fg="black")
-        edit_book_btn.place(x=930,y=80,width=120,height=35)
+        edit_book_btn.place(x=430,y=550,width=120,height=35)
 
+        
+    
 
+    def lihat_detail(self):
+        #clear entry boxes
+        self.txt_namabuku.delete(0, END)
+        self.txt_pengarangbuku.delete(0, END)
+        self.txt_penerbitbuku.delete(0, END)
+        self.txt_kategoribuku.delete(0, END)
+        self.txt_bahasabuku.delete(0, END)
+        self.txt_hargabuku.delete(0, END)
+        self.txt_stokbuku.delete(0, END)
 
+        #grab record number
+        selected = self.my_tabel.focus()
+
+        #grab record values
+        values = self.my_tabel.item(selected, 'values')
+
+        #output to entry boxes
+        self.txt_namabuku.insert(0, values[1])
+        self.txt_pengarangbuku.insert(0, values[2])
+        self.txt_penerbitbuku.insert(0, values[3])
+        self.txt_kategoribuku.insert(0, values[4])
+        self.txt_bahasabuku.insert(0, values[5])
+        self.txt_hargabuku.insert(0, values[6])
+        self.txt_stokbuku.insert(0, values[7])
+        
+        
 
     '''def add_new_book(self):
         self.new_window=Toplevel(self.root)
