@@ -184,7 +184,7 @@ class databuku_window:
         edit_book_btn=Button(self.root, text="edit", font=("Calibri",12),bd=3,fg="black")
         edit_book_btn.place(x=430,y=550,width=120,height=35)
 
-        
+        self.my_tabel.bind("<ButtonRelease-1>", self.lihat_detail)
     
 
     def lihat_detail(self):
